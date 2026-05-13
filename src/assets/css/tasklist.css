@@ -1,0 +1,8 @@
+#task-title {
+    cursor: pointer;
+}
+
+#task-title:hover {
+    color: blue;
+    text-decoration: underline;
+}

@@ -28,12 +28,12 @@ function TaskList() {
                 setTaskList(response.data);
             })
             .catch((err) => {
-                console.log("Error in get request")
+                console.log("Error in get request: ", err);
             })
     }, []);
 
     tasklist.map((task) => {
-        console.log(tasklist.status)
+        console.log(task.status)
     })
 
     const returnHome = () => {

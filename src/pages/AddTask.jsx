@@ -28,7 +28,7 @@ const AddTask = () => {
             .post(localhost + "/add-task/", task)
             .then((response) => {
                 alert("Task added successfully");
-                console.log("Post created successfully");
+                console.log("Post created successfully", response);
                 setTask({
                     title: "",
                     description: "",
@@ -39,7 +39,7 @@ const AddTask = () => {
                 });
             })
             .catch((err) => {
-                console.log("Error creating post")
+                console.log("Error creating post: ", err)
             })
     }
 
@@ -50,7 +50,7 @@ const AddTask = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="navbar">
                 <h1 className="mt-3">Add Task</h1>
                 <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={returnHome}>Home</button>

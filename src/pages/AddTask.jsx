@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import axiosInstance from '../axiosInstance';
 
 const AddTask = () => {
     const localhost = "http://127.0.0.1:8000"
@@ -24,8 +25,8 @@ const AddTask = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(task);
-        axios
-            .post(localhost + "/add-task/", task)
+        axiosInstance
+            .post("/add-task/", task)
             .then((response) => {
                 alert("Task added successfully");
                 console.log("Post created successfully", response);

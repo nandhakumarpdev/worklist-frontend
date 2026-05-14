@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import axiosInstance from '../axiosInstance';
 
 function TaskList() {
     const [tasklist, setTaskList] = useState([]);
@@ -22,7 +22,7 @@ function TaskList() {
     //const localhost = "http://10.199.211.181:5173" // for mobile
 
     useEffect(() => {
-        axios.get(localhost + "/get-tasks/")
+        axiosInstance.get("/get-tasks/")
             .then((response) => {
                 console.log(response.data);
                 setTaskList(response.data);

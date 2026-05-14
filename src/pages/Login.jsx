@@ -4,11 +4,7 @@ import axios from "axios";
 import "../assets/css/login.css"
 
 function Login() {
-    const localhost = "http://127.0.0.1:8000"
     const navigate = useNavigate();
-    function loginSuccess() {
-        navigate("/");
-    }
     const [credentials, setCredentials] = useState({
         "email": null,
         "password": null
@@ -23,10 +19,13 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(localhost + "/account/login/", credentials);
+            const response = await axios.post("http://127.0.0.1:8000/account/login/", credentials);
             console.log("Response: ", response.data);
             if (response.data.message == "User Login successfully") {
-                navigate("/");
+                localStorage.setItem("user_id", response.data.user_id);
+                localStorage.setItem("access_token", response.data.access_token);
+                localStorage.setItem("refresh_token", response.data.refresh_token);
+                navigate("/worklist");
             }
         }
         catch (error) {
@@ -46,7 +45,8 @@ function Login() {
                         <label className="form-label">Password: </label>
                         <input type="password" name="password" className="form-control" onChange={handleChange} required />
                     </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-primary me-3">Login</button>
+                    <button className="btn btn-danger" onClick={() => navigate("/register")}>Register</button>
                 </form>
 
             </div>

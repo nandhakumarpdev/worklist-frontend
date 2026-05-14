@@ -1,35 +1,36 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import axiosInstance from '../axiosInstance';
+import "../assets/css/tasklist.css"
 
 function TaskList() {
     const [tasklist, setTaskList] = useState([]);
-    const [status, setStatus] = useState("T");
     const [holdOn, setHoldOn] = useState({
         "show_popup": false,
         "id": "",
         "reason": ""
     });
-    const [taskView, setTaskView] = useState({});
+    const [taskView, setTaskView] = useState(null);
     const navigate = useNavigate();
     const priority = {
         L: "LOW",
         M: "MEDIUM",
         H: "HIGH"
     }
+    const [inProgress, setInProgress] = useState(null);
 
     const localhost = "http://127.0.0.1:8000"
     //const localhost = "http://10.199.211.181:8000" // for mobile
 
     useEffect(() => {
-        axios.get(localhost + "/get-tasks/")
+        axiosInstance.get("/get-tasks/")
             .then((response) => {
                 console.log(response.data);
                 setTaskList(response.data);
             })
             .catch((err) => {
-                console.log("Error in get request")
+                console.log("Error in get request: ", err)
             })
     }, []);
 
@@ -57,7 +58,7 @@ function TaskList() {
         });
         console.log(count);
         if (count > 0 && newstatus === "I") {
-            alert("You didn't finish the current task yet");
+            setInProgress("You didn't finish the current task yet");
             return;
         }
 
@@ -109,6 +110,47 @@ function TaskList() {
             console.log("Error updating status", error);
         }
     };
+
+    async function handleRowClick(task) {
+        setTaskView(task);
+
+    }
+
+    async function handleChanges() {
+        try {
+            await axios.put(localhost + `/update-task/${taskView.id}`, taskView);
+            const updatedTask = tasklist.map(
+                (task) => {
+                    if (task.id === taskView.id) {
+                        return taskView;
+                    }
+                    return task;
+                }
+            )
+            setTaskList(updatedTask);
+            setTaskView(null);
+            console.log("Handle changes save");
+
+        }
+        catch (error) {
+            console.log("Error in update ", error);
+        }
+    }
+
+    async function deleteTask() {
+        try {
+            await axios.delete(localhost + `/delete-task/${taskView.id}`);
+            const updatedTask = tasklist.filter(
+                (task) => task.id != taskView.id
+            );
+            setTaskList(updatedTask);
+            setTaskView(null);
+            console.log("Task deleted");
+        }
+        catch (error) {
+            console.log("Error ", error);
+        }
+    }
     return (
         <>
             <div className="navbar">
@@ -132,10 +174,14 @@ function TaskList() {
                 <tbody>
                     {tasklist
                         .filter(task => task.status !== "D")
-                        .map((task, index) =>
+                        .map((task) =>
                         (
-                            <tr key={index}>
-                                <td className="text-center">{task.title}</td>
+                            <tr key={task.id}
+                            >
+                                <td className="text-center"
+                                    id="task-title"
+                                    onClick={() => handleRowClick(task)}
+                                >{task.title}</td>
                                 <td className="text-center">{task.assignee}</td>
                                 <td className="text-center">{priority[task.priority]}</td>
                                 <td className="text-center">  {task.reported_time
@@ -145,7 +191,7 @@ function TaskList() {
                                         year: 'numeric'
                                     })
                                     : "—"}</td>
-                                <td className="d-flex justify-content-center align-items-center" >
+                                <td className="d-flex justify-content-center align-items-center" title={task.status == "O" ? "This task is on hold - reason: " + task.hold_on_reason : ""}>
                                     <select className="form-select w-50" value={task.status} onChange={(e) => taskStatus(e, task.id)}>
                                         <option className="text-center" value="T">TODO</option>
                                         <option className="text-center" value="I">IN PROGRESS</option>
@@ -157,6 +203,24 @@ function TaskList() {
                         ))}
                 </tbody>
             </table>
+            {inProgress && (
+                <div className="modal show d-block" tabIndex="-1" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">In progress Message</h5>
+                            </div>
+                            <div className="modal-body">
+                                <p>{inProgress}</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" onClick={() => setInProgress(null)}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+            }
             {holdOn.show_popup && (
                 <div className="modal show d-block" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" role="document">
@@ -175,7 +239,44 @@ function TaskList() {
                     </div>
                 </div>
             )}
+            {
+                taskView && (
+                    <div className="modal show d-block" tabIndex="-1" role="dialog">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Edit Task</h5>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="mb-2">
+                                        <input type="text" className="form-control" value={taskView.title} onChange={(e) => setTaskView({ ...taskView, title: e.target.value })} />
+                                    </div>
+                                    <div className="mb-2">
+                                        <input type="text" className="form-control" value={taskView.assignee} onChange={(e) => setTaskView({ ...taskView, assignee: e.target.value })} />
+                                    </div>
+                                    <div className="mb-2">
+                                        <select className="form-select" value={taskView.priority} onChange={(e) => setTaskView({ ...taskView, priority: e.target.value })}>
+                                            <option value="L">LOW</option>
+                                            <option value="M">MEDIUM</option>
+                                            <option value="H">HIGH</option>
+                                        </select>
+                                    </div>
+                                    <div className="mb-2">
+                                        <input type="date" className="form-control" value={taskView.reported_time?.split("T")[0] || ""} onChange={(e) => setTaskView({ ...taskView, reported_time: e.target.value })} />
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-primary" onClick={handleChanges}>Update</button>
+                                    <button type="button" className="btn btn-danger" onClick={deleteTask}>Delete</button>
+                                    <button type="button" className="btn btn-secondary" onClick={() => setTaskView(null)}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         </>
+
     )
 }
 

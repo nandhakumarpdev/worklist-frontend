@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import axiosInstance from '../axiosInstance';
 
 const AddTask = () => {
     const localhost = "http://127.0.0.1:8000"
@@ -24,11 +25,11 @@ const AddTask = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(task);
-        axios
-            .post(localhost + "/add-task/", task)
+        axiosInstance
+            .post("/add-task/", task)
             .then((response) => {
                 alert("Task added successfully");
-                console.log("Post created successfully");
+                console.log("Post created successfully", response);
                 setTask({
                     title: "",
                     description: "",
@@ -39,7 +40,7 @@ const AddTask = () => {
                 });
             })
             .catch((err) => {
-                console.log("Error creating post")
+                console.log("Error creating post: ", err)
             })
     }
 
@@ -50,7 +51,7 @@ const AddTask = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <div className="navbar">
                 <h1 className="mt-3">Add Task</h1>
                 <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={returnHome}>Home</button>

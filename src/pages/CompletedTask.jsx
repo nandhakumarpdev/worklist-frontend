@@ -22,7 +22,7 @@ function TaskList() {
     //const localhost = "http://10.199.211.181:5173" // for mobile
 
     useEffect(() => {
-        axiosInstance.get("/get-tasks/")
+        axiosInstance.get("/get-tasks/" + localStorage.getItem("user_id"))
             .then((response) => {
                 console.log(response.data);
                 setTaskList(response.data);
@@ -37,7 +37,7 @@ function TaskList() {
     })
 
     const returnHome = () => {
-        navigate("/")
+        navigate("/worklist")
     }
 
     return (

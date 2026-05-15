@@ -47,7 +47,7 @@ const AddTask = () => {
     const navigate = useNavigate();
 
     const returnHome = () => {
-        navigate("/")
+        navigate("/worklist")
     }
 
     return (

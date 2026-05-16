@@ -156,6 +156,7 @@ function TaskList() {
             <div className="navbar">
                 <h1>Task Manager</h1>
                 <div className="d-flex gap-4">
+                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3">Dashboard</button>
                     <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={completedTask}>Completed Task</button>
                     <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={addTask}>+ Add Task</button>
                 </div>

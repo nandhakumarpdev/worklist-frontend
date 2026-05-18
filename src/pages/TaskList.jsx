@@ -34,14 +34,6 @@ function TaskList() {
             })
     }, []);
 
-    const addTask = () => {
-        navigate("/add")
-    }
-
-    const completedTask = () => {
-        navigate("/completed-task")
-    }
-
     const updateStatus = (task, newStatus) => ({
         ...task, status: newStatus
     });
@@ -71,7 +63,7 @@ function TaskList() {
         }
 
         try {
-            await axios.put(localhost + `/update-task/${id}`, { status: newstatus });
+            axiosInstance.put(`/update-task/${id}`, { status: newstatus });
             setTaskList(prevTasks =>
                 prevTasks.map(task => {
                     if (task.id === id && task.status !== newstatus) {
@@ -89,7 +81,7 @@ function TaskList() {
 
     async function handleSubmitForOnHold() {
         try {
-            await axios.put(localhost + `/update-task/${holdOn.id}`, { hold_on_reason: holdOn.reason });
+            axiosInstancei.put(`/update-task/${holdOn.id}`, { hold_on_reason: holdOn.reason });
             setTaskList(prevTasks =>
                 prevTasks.map(task => {
                     if (task.id === holdOn.id) {
@@ -118,7 +110,7 @@ function TaskList() {
 
     async function handleChanges() {
         try {
-            await axios.put(localhost + `/update-task/${taskView.id}`, taskView);
+            axiosInstance.put(`/update-task/${taskView.id}`, taskView);
             const updatedTask = tasklist.map(
                 (task) => {
                     if (task.id === taskView.id) {
@@ -139,7 +131,7 @@ function TaskList() {
 
     async function deleteTask() {
         try {
-            await axios.delete(localhost + `/delete-task/${taskView.id}`);
+            axiosInstance.delete(`/delete-task/${taskView.id}`);
             const updatedTask = tasklist.filter(
                 (task) => task.id != taskView.id
             );
@@ -156,9 +148,9 @@ function TaskList() {
             <div className="navbar">
                 <h1>Task Manager</h1>
                 <div className="d-flex gap-4">
-                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3">Dashboard</button>
-                    <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={completedTask}>Completed Task</button>
-                    <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={addTask}>+ Add Task</button>
+                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={() => navigate("/dashboard")}>Dashboard</button>
+                    <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={() => navigate("/completed-task")}>Completed Task</button>
+                    <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/add")}>+ Add Task</button>
                 </div>
 
             </div>

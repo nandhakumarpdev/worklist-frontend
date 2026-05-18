@@ -20,7 +20,6 @@ function Login() {
         e.preventDefault();
         try {
             const response = await axios.post("http://127.0.0.1:8000/account/login/", credentials);
-            console.log("Response: ", response.data);
             if (response.data.message == "User Login successfully") {
                 localStorage.setItem("user_id", response.data.user_id);
                 localStorage.setItem("access_token", response.data.access_token);

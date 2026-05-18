@@ -36,7 +36,8 @@ const AddTask = () => {
                     assignee: "",
                     priority: "M",
                     time_unit: "H",
-                    estimate_time_to_complete: ""
+                    estimate_time_to_complete: "",
+                    user_id: localStorage.getItem("user_id")
                 });
             })
             .catch((err) => {

@@ -9,6 +9,7 @@ function Login() {
         "email": null,
         "password": null
     });
+    const [errorMsg, setErrorMsg] = useState(null);
     const handleChange = (e) => {
         setCredentials(prev => ({
             ...prev,
@@ -26,8 +27,19 @@ function Login() {
                 localStorage.setItem("refresh_token", response.data.refresh_token);
                 navigate("/worklist");
             }
+
         }
         catch (error) {
+            if (error.response.status === 401) {
+                console.log(error.response.data);
+                setErrorMsg(error.response.data.error);
+                console.log("Login error");
+            }
+            if (error.response.status === 400) {
+                console.log(error.response.data);
+                setErrorMsg(error.response.data.error);
+                console.log("Login error");
+            }
             console.log("Error: ", error);
         }
     }
@@ -47,7 +59,11 @@ function Login() {
                     <button type="submit" className="btn btn-primary me-3">Login</button>
                     <button className="btn btn-danger" onClick={() => navigate("/register")}>Register</button>
                 </form>
-
+                {errorMsg && (<div>
+                    <h5 className="mt-3 text-danger text-center">
+                        {errorMsg}
+                    </h5>
+                </div>)}
             </div>
         </>
     )

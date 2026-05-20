@@ -20,13 +20,9 @@ function TaskList() {
     }
     const [inProgress, setInProgress] = useState(null);
 
-    const localhost = "http://127.0.0.1:8000"
-    //const localhost = "http://10.199.211.181:8000" // for mobile
-
     useEffect(() => {
         axiosInstance.get("/get-tasks/" + localStorage.getItem("user_id"))
             .then((response) => {
-                console.log(response.data);
                 setTaskList(response.data);
             })
             .catch((err) => {

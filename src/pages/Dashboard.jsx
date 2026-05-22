@@ -38,6 +38,7 @@ function Dashboard() {
                 <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/worklist")}>Home</button>
             </div>
             <div className="container d-flex justify-content-center gap-3 mt-5 mb-5">
+
                 {stats.map((stat) => (
                     <div className="card flex-fill text-center" key={stat.label}>
                         <div className="card-header fw-semibold">
@@ -50,6 +51,7 @@ function Dashboard() {
                 ))}
             </div>
             <div className="container">
+                <h3 className="text-center mb-3">Task Priorities</h3>
                 <div className="container d-flex justify-content-center gap-5 mb-3">
                     <span className="badge rounded-pill bg-success">● Low</span>
                     <span className="badge rounded-pill bg-warning" style={{ color: '#000' }}>● Medium</span>

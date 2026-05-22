@@ -19,6 +19,19 @@ function TaskList() {
         H: "HIGH"
     }
     const [inProgress, setInProgress] = useState(null);
+    const [user, setUserDetails] = useState(null);
+
+    useEffect(() => {
+        axiosInstance.get("/check-dashboard-enable/" + localStorage.getItem("user_id"))
+            .then((response) => {
+                console.log("User data data");
+                console.log(response.data);
+                setUserDetails(response.data);
+            }).catch((error) => {
+                console.log("Error in dashboard", error);
+            })
+    }, []);
+
 
     useEffect(() => {
         axiosInstance.get("/get-tasks/" + localStorage.getItem("user_id"))
@@ -144,7 +157,7 @@ function TaskList() {
             <div className="navbar">
                 <h1>Task Manager</h1>
                 <div className="d-flex gap-4">
-                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={() => navigate("/dashboard")}>Dashboard</button>
+                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={() => navigate("/dashboard")} title={"Complete 5 tasks to unlock the dashboard."}  >Dashboard</button>
                     <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={() => navigate("/completed-task")}>Completed Task</button>
                     <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/add")}>+ Add Task</button>
                 </div>

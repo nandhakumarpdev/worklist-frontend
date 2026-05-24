@@ -21,6 +21,8 @@ function TaskList() {
     const [inProgress, setInProgress] = useState(null);
     const [user, setUserDetails] = useState(null);
 
+    const [clickDashboard, setClickDashboard] = useState(false);
+
     useEffect(() => {
         axiosInstance.get("/check-dashboard-enable/" + localStorage.getItem("user_id"))
             .then((response) => {
@@ -152,12 +154,20 @@ function TaskList() {
             console.log("Error ", error);
         }
     }
+    function handleDashboard() {
+        if (user.is_staff) {
+            navigate("/dashboard");
+        }
+        else {
+            setClickDashboard(true);
+        }
+    }
     return (
         <>
             <div className="navbar">
                 <h1>Task Manager</h1>
                 <div className="d-flex gap-4">
-                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={() => navigate("/dashboard")} title={"Complete 5 tasks to unlock the dashboard."}  >Dashboard</button>
+                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={handleDashboard} title={"Complete 5 tasks to unlock the dashboard."}  >Dashboard</button>
                     <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={() => navigate("/completed-task")}>Completed Task</button>
                     <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/add")}>+ Add Task</button>
                 </div>
@@ -271,6 +281,25 @@ function TaskList() {
                                     <button type="button" className="btn btn-primary" onClick={handleChanges}>Update</button>
                                     <button type="button" className="btn btn-danger" onClick={deleteTask}>Delete</button>
                                     <button type="button" className="btn btn-secondary" onClick={() => setTaskView(null)}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                clickDashboard && user && user.is_staff === false && (
+                    <div className="modal show d-block" tabIndex="-1" role="dialog">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">To Enable Dashboard</h5>
+                                </div>
+                                <div className="modal-body">
+                                    <h4>Complete 5 tasks to unlock the dashboard.</h4>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" onClick={() => setClickDashboard(false)}>Close</button>
                                 </div>
                             </div>
                         </div>

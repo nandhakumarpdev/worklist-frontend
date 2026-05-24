@@ -38,7 +38,6 @@ function Dashboard() {
                 <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/worklist")}>Home</button>
             </div>
             <div className="container d-flex justify-content-center gap-3 mt-5 mb-5">
-
                 {stats.map((stat) => (
                     <div className="card flex-fill text-center" key={stat.label}>
                         <div className="card-header fw-semibold">

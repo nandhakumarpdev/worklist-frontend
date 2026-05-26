@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import axiosInstance from '../axiosInstance';
 import "../assets/css/tasklist.css"
+import userLogo from "../assets/user-icon.png";
 
 function TaskList() {
     const [tasklist, setTaskList] = useState([]);
@@ -165,13 +166,15 @@ function TaskList() {
     return (
         <>
             <div className="navbar">
-                <h1>Task Manager</h1>
-                <div className="d-flex gap-4">
-                    <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={handleDashboard} title={"Complete 5 tasks to unlock the dashboard."}  >Dashboard</button>
-                    <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={() => navigate("/completed-task")}>Completed Task</button>
-                    <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/add")}>+ Add Task</button>
+                <h1>Work List</h1>
+                <div>
+                    <img src={userLogo} alt="userLogo" className="user-logo" />
                 </div>
-
+            </div>
+            <div className="d-flex justify-content-center gap-4">
+                <button type="button" className="btn btn-warning btn-lg mt-3 mb-3" onClick={handleDashboard} title={"Complete 5 tasks to unlock the dashboard."}  >Dashboard</button>
+                <button type="button" className="btn btn-success btn-lg mt-3 mb-3" onClick={() => navigate("/completed-task")}>Completed Task</button>
+                <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={() => navigate("/add")}>+ Add Task</button>
             </div>
             <table className="table table-hover">
                 <thead>
@@ -296,7 +299,7 @@ function TaskList() {
                                     <h5 className="modal-title">To Enable Dashboard</h5>
                                 </div>
                                 <div className="modal-body">
-                                    <h4>Complete 5 tasks to unlock the dashboard.</h4>
+                                    <h4>Complete {5 - user.task_count} tasks to unlock the dashboard.</h4>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-danger" onClick={() => setClickDashboard(false)}>Close</button>

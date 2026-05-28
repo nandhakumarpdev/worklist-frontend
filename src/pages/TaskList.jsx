@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 import axiosInstance from '../axiosInstance';
 import "../assets/css/tasklist.css"
 import userLogo from "../assets/user-icon.png";
+import UserDetails from "./UserDetails";
 
 function TaskList() {
     const [tasklist, setTaskList] = useState([]);
@@ -23,12 +23,11 @@ function TaskList() {
     const [user, setUserDetails] = useState(null);
 
     const [clickDashboard, setClickDashboard] = useState(false);
+    const [clickUserDetails, setClickUserDetails] = useState(false);
 
     useEffect(() => {
         axiosInstance.get("/check-dashboard-enable/" + localStorage.getItem("user_id"))
             .then((response) => {
-                console.log("User data data");
-                console.log(response.data);
                 setUserDetails(response.data);
             }).catch((error) => {
                 console.log("Error in dashboard", error);
@@ -93,7 +92,7 @@ function TaskList() {
 
     async function handleSubmitForOnHold() {
         try {
-            axiosInstancei.put(`/update-task/${holdOn.id}`, { hold_on_reason: holdOn.reason });
+            axiosInstance.put(`/update-task/${holdOn.id}`, { hold_on_reason: holdOn.reason });
             setTaskList(prevTasks =>
                 prevTasks.map(task => {
                     if (task.id === holdOn.id) {
@@ -168,7 +167,7 @@ function TaskList() {
             <div className="navbar">
                 <h1>Work List</h1>
                 <div>
-                    <img src={userLogo} alt="userLogo" className="user-logo" />
+                    <img src={userLogo} alt="userLogo" className="user-logo" title="user details" onClick={() => setClickUserDetails(true)} />
                 </div>
             </div>
             <div className="d-flex justify-content-center gap-4">
@@ -309,6 +308,10 @@ function TaskList() {
                     </div>
                 )
             }
+
+            {clickUserDetails && (
+                <UserDetails userDetails={clickUserDetails} setUserDetails={setClickUserDetails} />
+            )}
         </>
 
     )

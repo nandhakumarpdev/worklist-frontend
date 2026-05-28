@@ -1,11 +1,8 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 import axiosInstance from '../axiosInstance';
 
 const AddTask = () => {
-    const localhost = "http://127.0.0.1:8000"
-    // const localhost = "http://10.199.211.181:5173" // for mobile
     const [task, setTask] = useState({
         "title": "",
         "description": "",

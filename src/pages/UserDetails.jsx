@@ -55,22 +55,6 @@ function UserDetails({ userDetails, setUserDetails }) {
             console.log("Error in update user detiails ", error);
         }
     }
-    // async function updateUserData() {
-    //     try {
-    //         const url = `/user-details/${needToPost ? "creation" : "updation"}/${userData.user_d}`;
-    //         const method = needToPost ? "post" : "put";
-
-    //         // exclude profile_image — it's a file field, handle separately
-    //         const { profile_image, ...dataToSend } = userData;
-
-    //         const response = await axiosInstance[method](url, dataToSend);
-    //         console.log("Response:", response.data);
-    //         setUserData(response.data);
-    //         if (needToPost) setNeedToPost(false);
-    //     } catch (error) {
-    //         console.error("Update failed:", error.response?.data || error.message);
-    //     }
-    // }
 
     return (
         <>
@@ -84,9 +68,9 @@ function UserDetails({ userDetails, setUserDetails }) {
                             <div className="d-flex justify-content-center">
                                 <img src={userLogo} alt="userLogo" className="w-25 h-25" />
                             </div>
-                            <div className="text-center">
+                            {/* <div className="text-center">
                                 <button type="button" className="btn">Change profile picture</button>
-                            </div>
+                            </div> */}
                             <div className="mb-2">
                                 <label className="">DOB:</label>
                                 <input type="date" className="form-control" value={userData?.dob?.split("T")[0] || ""} onChange={(e) => setUserData({ ...userData, dob: e.target.value })} />

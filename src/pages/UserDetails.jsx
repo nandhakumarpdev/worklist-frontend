@@ -56,6 +56,22 @@ function UserDetails({ userDetails, setUserDetails }) {
         }
     }
 
+    function calculateAge(dob) {
+        if (dob === "") {
+            return dob;
+        }
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
     return (
         <>
             {userDetails && (<div className="modal show d-block" tabIndex="-1" role="dialog">
@@ -77,7 +93,7 @@ function UserDetails({ userDetails, setUserDetails }) {
                             </div>
                             <div className="mb-2">
                                 <label>Age: </label>
-                                <input type="text" className="form-control" value={userData?.age || ""} onChange={(e) => setUserData({ ...userData, age: e.target.value })} />
+                                <input type="text" className="form-control" value={calculateAge(userData?.dob?.split("T")[0] || "") || ""} onChange={(e) => setUserData({ ...userData, age: e.target.value })} />
                             </div>
                             <div className="mb-2">
                                 <label>Gender: </label>

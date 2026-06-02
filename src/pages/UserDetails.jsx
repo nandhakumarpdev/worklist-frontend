@@ -40,7 +40,7 @@ function UserDetails({ userDetails, setUserDetails }) {
         try {
             const { profile_image, ...dataToSend } = userData;
             if (needToPost) {
-                const response = await axiosInstance.post(`/user-details/creation/${userData.user_id}`, dataToSend);
+                const response = await axiosInstance.post(`/user-details/creation/${localStorage.getItem("user_id")}`, dataToSend);
                 console.log("user detail posted ", response.data);
                 setUserData(response.data);
                 setNeedToPost(false);
@@ -52,7 +52,7 @@ function UserDetails({ userDetails, setUserDetails }) {
             }
         }
         catch (error) {
-            console.log("Error in update user detiails ", error);
+            console.log("Error in update user detials ", error);
         }
     }
 

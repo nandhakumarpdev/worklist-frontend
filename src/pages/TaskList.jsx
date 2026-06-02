@@ -162,6 +162,10 @@ function TaskList() {
             setClickDashboard(true);
         }
     }
+    function checkTaskCompleted(ReportTime) {
+        console.log(new Date(ReportTime) > new Date());
+        return new Date(ReportTime) > new Date();
+    }
     return (
         <>
             <div className="navbar">
@@ -198,7 +202,9 @@ function TaskList() {
                                 >{task.title}</td>
                                 <td className="text-center">{task.assignee}</td>
                                 <td className="text-center">{priority[task.priority]}</td>
-                                <td className="text-center">  {task.reported_time
+                                <td className="text-center" style={{
+                                    backgroundColor: new Date(task.reported_time) > new Date() ? "" : "red"
+                                }}>  {task.reported_time
                                     ? new Date(task.reported_time).toLocaleDateString('en-IN', {
                                         day: '2-digit',
                                         month: 'short',

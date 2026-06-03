@@ -203,7 +203,7 @@ function TaskList() {
                                 <td className="text-center">{task.assignee}</td>
                                 <td className="text-center">{priority[task.priority]}</td>
                                 <td className="text-center" style={{
-                                    backgroundColor: new Date(task.reported_time) > new Date() ? "" : "red"
+                                    color: new Date(task.reported_time) > new Date() ? "" : " #dd1b1b"
                                 }}>  {task.reported_time
                                     ? new Date(task.reported_time).toLocaleDateString('en-IN', {
                                         day: '2-digit',

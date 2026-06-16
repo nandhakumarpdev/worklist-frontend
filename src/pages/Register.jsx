@@ -24,7 +24,7 @@ function Register() {
             console.log("Response", response.data);
             if (response.data.message === "User created successfully") {
                 console.log("Success Response");
-                setRegisterMsg(response.data.Message);
+                setRegisterMsg(response.data.message);
             }
         }
         catch (error) {

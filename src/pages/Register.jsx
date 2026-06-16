@@ -22,7 +22,8 @@ function Register() {
         try {
             const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/user-register/", data);
             console.log("Response", response.data);
-            if (response.data.Message === "User created successfully") {
+            if (response.data.message === "User created successfully") {
+                console.log("Success Response");
                 setRegisterMsg(response.data.Message);
             }
         }

@@ -20,7 +20,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://127.0.0.1:8000/account/login/", credentials);
+            const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/login/", credentials);
             if (response.data.message == "User Login successfully") {
                 localStorage.setItem("user_id", response.data.user_id);
                 localStorage.setItem("access_token", response.data.access_token);

@@ -20,7 +20,7 @@ function Register() {
     const hanldeSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://127.0.0.1:8000/account/user-register/", data);
+            const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/user-register/", data);
             console.log("Response", response.data);
             if (response.data.Message === "User created successfully") {
                 setRegisterMsg(response.data.Message);

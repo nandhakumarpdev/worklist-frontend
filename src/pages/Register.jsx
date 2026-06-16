@@ -24,6 +24,11 @@ function Register() {
             console.log("Response", response.data);
             if (response.data.message === "User created successfully") {
                 console.log("Success Response");
+                setData({
+                    "username": null,
+                    "password": null,
+                    "email": null
+                });
                 setRegisterMsg(response.data.message);
             }
         }
@@ -53,9 +58,9 @@ function Register() {
             </div>
             {
                 registerMsg &&
-                <div>
-                    <p>{registerMsg}</p>
-                    <button className="btn" onClick={() => navigate("/")}>Login</button>
+                <div className="d-flex align-items-center justify-content-center gap-2">
+                    <p className="mb-0">{registerMsg}</p>
+                    <button className="btn btn-danger" onClick={() => navigate("/")}>Login</button>
                 </div>}
         </>);
 }

@@ -67,6 +67,7 @@ function Login() {
                 {loading && (
                     <div className="text-center">
                         <div className="spinner-border" role="status"></div>
+                        <p className="mt-2">Please wait while we validate your credentials...</p>
                     </div>
                 )}
                 {errorMsg && (<div>

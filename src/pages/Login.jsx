@@ -75,6 +75,18 @@ function Login() {
                     </h5>
                 </div>)}
             </div>
+            <div className="d-flex justify-content-center align-items-center flex-column mt-5">
+                <h3>Worklist</h3>
+                <p>Stay organized and manage your tasks efficiently.</p>
+                <h4>Features</h4>
+                <ul>
+                    <li>Create and manage your daily tasks.</li>
+                    <li>Set deadlines for each task.</li>
+                    <li>Edit task details anytime.</li>
+                    <li>Track pending and completed tasks.</li>
+                    <li>Simple and user-friendly interface to improve productivity.</li>
+                </ul>
+            </div>
         </>
     )
 }

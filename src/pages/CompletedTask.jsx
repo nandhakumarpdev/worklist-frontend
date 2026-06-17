@@ -42,7 +42,7 @@ function TaskList() {
                 <h1>Task Manager</h1>
                 <button type="button" className="btn btn-primary btn-lg mt-3 mb-3" onClick={returnHome}>Home</button>
             </div>
-            { }<table className="table table-hover">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th className="table-primary text-center">Title</th>

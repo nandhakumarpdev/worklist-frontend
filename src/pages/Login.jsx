@@ -17,9 +17,11 @@ function Login() {
         })
         )
     }
+    const [loading, setLoading] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/login/", credentials);
             if (response.data.message == "User Login successfully") {
                 localStorage.setItem("user_id", response.data.user_id);
@@ -42,6 +44,9 @@ function Login() {
             }
             console.log("Error: ", error);
         }
+        finally {
+            setLoading(false);
+        }
     }
     return (
         <>
@@ -59,6 +64,11 @@ function Login() {
                     <button type="submit" className="btn btn-primary me-3">Login</button>
                     <button className="btn btn-danger" onClick={() => navigate("/register")}>Register</button>
                 </form>
+                {loading && (
+                    <div className="text-center">
+                        <div className="spinner-border" role="status"></div>
+                    </div>
+                )}
                 {errorMsg && (<div>
                     <h5 className="mt-3 text-danger text-center">
                         {errorMsg}

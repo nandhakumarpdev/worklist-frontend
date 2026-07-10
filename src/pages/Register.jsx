@@ -22,10 +22,10 @@ function Register() {
     const hanldeSubmit = async (e) => {
         e.preventDefault();
         try {
-            setLoading(true);
             setErrorMsg(null);
+            setLoading(true);
             const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/user-register/", data);
-            console.log("Response", response.data);
+            console.log("Response", response.data.error);
             if (response.data.message === "User created successfully") {
                 console.log("Success Response");
                 setData({
@@ -37,8 +37,14 @@ function Register() {
             }
         }
         catch (error) {
-            setErrorMsg(error.response.data.error);
-            console.log("Error: ", error);
+            if (error.response) {
+                console.log("Status:", error.response.status);
+                console.log("Data:", error.response.data);
+
+                setErrorMsg(error.response.data.error);
+            } else {
+                setErrorMsg("Network error. Please try again.");
+            }
         }
         finally {
             setLoading(false);

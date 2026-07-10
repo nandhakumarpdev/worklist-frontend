@@ -67,7 +67,7 @@ function Register() {
             {loading && (
                 <div className="text-center">
                     <div className="spinner-border" role="status"></div>
-                    <p className="mt-2" style={{ color: "brown" }}>Please wait while we validate your credentials...</p>
+                    <p className="mt-2" style={{ color: "brown" }}>Registration complete! Your account will be ready shortly.</p>
                 </div>
             )}
             {errorMsg && (<div>

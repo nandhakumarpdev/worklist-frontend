@@ -22,6 +22,7 @@ function Login() {
         e.preventDefault();
         try {
             setLoading(true);
+            setErrorMsg(null);
             const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/login/", credentials);
             if (response.data.message == "User Login successfully") {
                 localStorage.setItem("user_id", response.data.user_id);
@@ -67,7 +68,7 @@ function Login() {
                 {loading && (
                     <div className="text-center">
                         <div className="spinner-border" role="status"></div>
-                        <p className="mt-2">Please wait while we validate your credentials...</p>
+                        <p className="mt-2" style={{ color: "brown" }}>Please wait while we validate your credentials...</p>
                     </div>
                 )}
                 {errorMsg && (<div>

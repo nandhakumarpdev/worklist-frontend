@@ -38,6 +38,7 @@ function TaskList() {
     useEffect(() => {
         axiosInstance.get("/get-tasks/" + localStorage.getItem("user_id"))
             .then((response) => {
+                console.log(response.data);
                 setTaskList(response.data);
             })
             .catch((err) => {

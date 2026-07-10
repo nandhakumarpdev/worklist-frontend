@@ -11,6 +11,8 @@ function Register() {
         "email": null
     })
     const [registerMsg, setRegisterMsg] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [loading, setLoading] = useState(false);
     const handleChange = (e) => {
         setData(prev => ({
             ...prev,
@@ -20,6 +22,8 @@ function Register() {
     const hanldeSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
+            setErrorMsg(null);
             const response = await axios.post("https://worklist-backend-rbu0.onrender.com/account/user-register/", data);
             console.log("Response", response.data);
             if (response.data.message === "User created successfully") {
@@ -33,7 +37,11 @@ function Register() {
             }
         }
         catch (error) {
+            setErrorMsg(error.response.data.error);
             console.log("Error: ", error);
+        }
+        finally {
+            setLoading(false);
         }
     }
     return (
@@ -56,6 +64,17 @@ function Register() {
                     <button type="submit" className="btn btn-primary">Register</button>
                 </form>
             </div>
+            {loading && (
+                <div className="text-center">
+                    <div className="spinner-border" role="status"></div>
+                    <p className="mt-2" style={{ color: "brown" }}>Please wait while we validate your credentials...</p>
+                </div>
+            )}
+            {errorMsg && (<div>
+                <h5 className="mt-3 text-danger text-center">
+                    {errorMsg}
+                </h5>
+            </div>)}
             {
                 registerMsg &&
                 <div className="d-flex align-items-center justify-content-center gap-2">
